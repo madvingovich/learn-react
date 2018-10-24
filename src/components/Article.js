@@ -1,44 +1,65 @@
-import React, {Component} from 'react'
+import React, {Component} from 'react';
+import {findDOMNode} from 'react-dom';
+import PropTypes from 'prop-types';
 import CommentList from './CommentList';
+import toggleOpen from '../decorators/toggleOpen';
 
-export default class Article extends Component {
+class Article extends Component {
+    static propTypes = {
+        article: PropTypes.shape({
+            id: PropTypes.string.isRequired,
+            title: PropTypes.string.isRequired,
+            text: PropTypes.string
+        })
+    };
 
-    constructor(props) {
-        super(props);
+    componentWillReceiveProps(nextProps) {
+        console.log('updating', this.props.isOpen, nextProps.isOpen);
+    }
 
-        this.state = {
-            isOpen: false
-        }
+    componentWillMount() {
+        console.log('will mount, shas budem stroit\' virtual dom');
     }
 
     render() {
-        const {article} = this.props;
-        const text = this.state.isOpen ? 'Close' : 'Open';
+        const {article, isOpen, toggleOpen} = this.props;
+        const text = isOpen ? 'Close' : 'Open';
 
         return (
-            <div>
+            <div ref = {this.setContainerRef}>
                 <h3>{article.title}</h3>
-                <button onClick={this.toggleOpen}>{text}</button>
+                <button onClick={toggleOpen}>{text}</button>
                 {this.getBody()}
              </div>
         )
     }
 
-    toggleOpen = () => {
-        this.setState({
-            isOpen: !this.state.isOpen
-        })
+    setContainerRef = ref => {
+        console.log('ref - ', ref)
+    }
+    
+    componentDidMount() {
+        console.log('vse, v real\'nom dome vse gtovo, tut zbs veshat\' sobitiya');
     }
 
     getBody = () => {
-        if(!this.state.isOpen) return null;
-        const {article} = this.props;
+        const {article, isOpen} = this.props;
+
+        if(!isOpen) return null;
+
         const {comments} = article;
         return (
             <div>
                 <section>{article.text}</section>
-                <CommentList comments = {comments}/>
+                <CommentList comments = {comments} ref = {this.commentsRef}/>
             </div>
         );
     }
+
+    commentsRef = ref => {
+        console.log('comments ref - ', ref);
+        console.log('comments ref findDOMNode - ', findDOMNode(ref));
+    }
 }
+
+export default Article;
