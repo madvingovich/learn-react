@@ -1,23 +1,23 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import Article from './Article';
+import accordion from '../decorators/accordion'
 
 class ArticleList extends Component {
     static propTypes = {
-
-    };
-
-    state = {
-        openArticleId: this.props.articles[0].id
+        articles: PropTypes.array.isRequired,
+        toggleOpenArticle: PropTypes.func,
+        openArticleId: PropTypes.string
     };
 
     render() {
-        const {articles} = this.props;
+        const {articles, openArticleId, toggleOpenArticle} = this.props;
+        console.log(this.props)
         const articleList = articles.map(article =>
             <li key = {article.id}>
                 <Article article={article}
-                         isOpen = {article.id === this.state.openArticleId}
-                         toggleOpen = {this.toggleOpenArticle.bind(this, article.id)}
+                         isOpen = {article.id === openArticleId}
+                         toggleOpen = {toggleOpenArticle(article.id)}
                 />
             </li>);
         return (
@@ -27,11 +27,6 @@ class ArticleList extends Component {
         )
     }
 
-    toggleOpenArticle = (openArticleId) => {
-        openArticleId === this.state.openArticleId ?
-            this.setState({ openArticleId: null }) :
-            this.setState({ openArticleId });
-    }
 }
 
-export default ArticleList;
+export default accordion(ArticleList);
