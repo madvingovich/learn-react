@@ -23,6 +23,7 @@
     "css-loader": "^1.0.0",
     "prop-types": "^15.6.2",
     "react": "^15.5.0",
+    "react-day-picker": "^7.2.4",
     "react-dom": "^15.5.0",
     "react-select": "^1.0.0-rc.5",
     "react-transition-group": "^1.2.0",
