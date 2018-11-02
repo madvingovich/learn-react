@@ -19,7 +19,7 @@ export default (filters = defaultFilters, action) => {
             return {...filters, selected: payload.selected}
 
         case DELETE_ARTICLE:
-            return {...filters, selected: payload.selected.filter(id => (id !== payload.id))}
+            return {...filters, selected: filters.selected.filter(id => (id !== payload.id))}
     }
 
     return filters;
