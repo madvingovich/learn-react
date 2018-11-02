@@ -2,8 +2,9 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import UserForm from './UserForm';
 import ArticleList from './ArticleList';
-import 'react-select/dist/react-select.css';
 import Filters from './Filters';
+import Counter from './Counter';
+
 
 class App extends Component {
     static propTypes = {
@@ -14,9 +15,10 @@ class App extends Component {
         const {articles} = this.props;
         return (
             <div>
+                <Counter />
                 <UserForm/>
-                <Filters articles = {articles}/>
-                <ArticleList articles = {articles}/>
+                <Filters articles = {[]}/>
+                <ArticleList />
             </div>
         )
     }

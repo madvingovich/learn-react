@@ -3,9 +3,11 @@ import {findDOMNode} from 'react-dom';
 import PropTypes from 'prop-types';
 import CommentList from '../CommentList';
 import { CSSTransitionGroup } from 'react-transition-group';
+import {connect} from 'react-redux';
+import {deleteArticle} from '../../AC';
 import './article.css';
 
-class Index extends PureComponent {
+class Article extends PureComponent {
     static propTypes = {
         article: PropTypes.shape({
             id: PropTypes.string.isRequired,
@@ -40,6 +42,7 @@ class Index extends PureComponent {
             <div ref = {this.setContainerRef}>
                 <h3>{article.title}</h3>
                 <button onClick={toggleOpen}>{isOpen ? 'Close' : 'Open'}</button>
+                <button onClick={this.handleDelete}>Delete</button>
                 <CSSTransitionGroup
                     transitionName = 'article'
                     transitionAppear // возможность анимиррования сразу, при загрузке
@@ -62,6 +65,13 @@ class Index extends PureComponent {
         // console.log('vse, v real\'nom dome vse gotovo, tut zbs veshat\' sobitiya');
     }
 
+    handleDelete = () => {
+        console.log('deleted');
+        const{deleteArticle, article} = this.props;
+
+        deleteArticle(article.id);
+    };
+
     getBody = () => {
         const {article, isOpen} = this.props;
 
@@ -83,4 +93,4 @@ class Index extends PureComponent {
     }
 }
 
-export default Index;
+export default connect(null, { deleteArticle })(Article);
