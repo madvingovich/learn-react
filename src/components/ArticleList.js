@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import Article from './Article';
 import accordion from '../decorators/accordion';
+import {filterArticles} from "../selectors";
 import {connect} from 'react-redux';
 
 
@@ -32,6 +33,12 @@ class ArticleList extends Component {
 
 }
 
-export default connect(({articles}) => ({//map store state to props
-    articles
-}))(accordion(ArticleList));
+export default connect((state) => {//map store state to props
+
+
+    return {
+        articles: filterArticles(state)
+    }
+
+
+})(accordion(ArticleList));

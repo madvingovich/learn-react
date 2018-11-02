@@ -1,15 +1,13 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import Select from 'react-select';
+import {connect} from 'react-redux';
+import {changeSelection} from '../../AC';
 import 'react-select/dist/react-select.css';
 
 class SelectFilter extends Component {
     static propTypes = {
 
-    };
-
-    state = {
-        selection: null
     };
 
     render() {
@@ -19,11 +17,17 @@ class SelectFilter extends Component {
         }));
 
         return (
-            <Select options = {options} value = {this.state.selection} onChange = {this.changeSelection} multi/>
+            <Select options = {options} value = {this.props.selected} onChange = {this.changeSelection} multi/>
         )
     }
 
-    changeSelection = selection => this.setState({ selection });
+    changeSelection = selection => {
+        const {changeSelection} = this.props;
+        changeSelection(selection.map(option => (option.value)));
+    };
 }
 
-export default SelectFilter;
+export default connect(({filters, articles}) => ({
+    selected: filters.selected,
+    articles
+}), { changeSelection })(SelectFilter);
