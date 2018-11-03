@@ -34,11 +34,8 @@ class ArticleList extends Component {
 }
 
 export default connect((state) => {//map store state to props
-
-
     return {
-        articles: filterArticles(state)
+        // articles: filterArticles(state)
+        articles: state.articles
     }
-
-
 })(accordion(ArticleList));

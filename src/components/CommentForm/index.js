@@ -14,6 +14,7 @@ class AddCommentFormForm extends Component {
     render() {
         return (
             <form onSubmit={this.handleSubmit}>
+                User:
                 <input
                     type="text"
                     value={this.state.user}
@@ -21,7 +22,7 @@ class AddCommentFormForm extends Component {
                     onChange={this.handleInputChange('user')}
                     placeholder='user'
                 />
-                <br/>
+                Comment:
                 <input
                     type="text"
                     value={this.state.text}
@@ -29,7 +30,6 @@ class AddCommentFormForm extends Component {
                     onChange={this.handleInputChange('text')}
                     placeholder='text'
                 />
-                <br/>
                 <button type='submit'>Add comment</button>
             </form>
         )

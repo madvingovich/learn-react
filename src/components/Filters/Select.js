@@ -11,6 +11,7 @@ class SelectFilter extends Component {
     };
 
     render() {
+        console.log(this.props)
         const options = this.props.articles.map(article => ({
             label: article.title,
             value: article.id
