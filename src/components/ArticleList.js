@@ -2,8 +2,8 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import Article from './Article';
 import accordion from '../decorators/accordion';
-import {filterArticles} from "../selectors";
 import {connect} from 'react-redux';
+import {filterArticles, articlesToArraySelector} from '../selectors';
 
 
 class ArticleList extends Component {
@@ -17,11 +17,11 @@ class ArticleList extends Component {
 
     render() {
         const {articles, openItemId, toggleOpenItem} = this.props;
-        const articleList = articles.map(article =>
-            <li key = {article.id}>
-                <Article article={article}
-                       isOpen = {article.id === openItemId}
-                       toggleOpen = {toggleOpenItem(article.id)}
+        const articleList = articles.map(id =>
+            <li key = {id}>
+                <Article id={id}
+                       isOpen = {id === openItemId}
+                       toggleOpen = {toggleOpenItem(id)}
                 />
             </li>);
         return (
@@ -35,7 +35,7 @@ class ArticleList extends Component {
 
 export default connect((state) => {//map store state to props
     return {
-        // articles: filterArticles(state)
-        articles: state.articles
+        articles: filterArticles(state),
+        // articles: state.articles,
     }
 })(accordion(ArticleList));

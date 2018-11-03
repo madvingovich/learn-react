@@ -3,18 +3,20 @@ import PropTypes from 'prop-types';
 import Select from 'react-select';
 import {connect} from 'react-redux';
 import {changeSelection} from '../../AC';
+import {articlesToArraySelector} from '../../selectors';
 import 'react-select/dist/react-select.css';
 
 class SelectFilter extends Component {
     static propTypes = {
-
+        articlesId: PropTypes.array.isRequired,
+        articles: PropTypes.object.isRequired,
     };
 
     render() {
-        console.log(this.props)
-        const options = this.props.articles.map(article => ({
-            label: article.title,
-            value: article.id
+        const {articlesId, articles} = this.props;
+        const options = articlesId.map(id => ({
+            label: articles[id].title,
+            value: id
         }));
 
         return (
@@ -28,7 +30,8 @@ class SelectFilter extends Component {
     };
 }
 
-export default connect(({filters, articles}) => ({
-    selected: filters.selected,
-    articles
+export default connect((state, ownProps) => ({
+    selected: state.filters.selected,
+    articles:state.articles,
+    articlesId: articlesToArraySelector(state, ownProps)
 }), { changeSelection })(SelectFilter);

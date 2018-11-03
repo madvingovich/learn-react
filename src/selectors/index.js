@@ -11,19 +11,23 @@ export const filterArticles = createSelector(filtersGetter, articlesGetter, (fil
         from,
         to
     }} = filters;
-    // return articles;
 
-    return articles.filter(article => {
-        return (!selected.length || selected.includes(article.id)) &&
-            (!from || !to || article.date > from.toISOString() && article.date < to.toISOString());
+    const articleIds = Object.keys(articles).map(id => (id));
 
+    return articleIds.filter(id => {
+        return (!selected.length || selected.includes(id)) &&
+            (!from || !to || articles[id].date > from.toISOString() && articles[id].date < to.toISOString());
     })
 });
-// to create selector for every comment
+// to create selector for every item
 export const commentSelectorFactory = () => createSelector(commentsGetter, idGetter, (comments, id) => {
     return comments[id];
 });
 
-export const articlesSelector = () => createSelector(articlesGetter, idGetter, (articles, id) => {
+export const articlesSelector = createSelector(articlesGetter, idGetter, (articles, id) => {
     return articles[id];
+});
+
+export const articlesToArraySelector = createSelector(articlesGetter, (articles) => {
+    return Object.keys(articles).map(key => key);
 });

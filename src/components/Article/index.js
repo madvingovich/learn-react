@@ -5,15 +5,19 @@ import CommentList from '../CommentList';
 import { CSSTransitionGroup } from 'react-transition-group';
 import {connect} from 'react-redux';
 import {deleteArticle} from '../../AC';
+import {articlesSelector} from '../../selectors';
 import './article.css';
 
 class Article extends PureComponent {
     static propTypes = {
+        //from connect
         article: PropTypes.shape({
             id: PropTypes.string.isRequired,
             title: PropTypes.string.isRequired,
             text: PropTypes.string
         }).isRequired,
+        //from props
+        id: PropTypes.string.isRequired,
         isOpen: PropTypes.bool,
         toggleOpen: PropTypes.func.isRequired
     };
@@ -93,4 +97,7 @@ class Article extends PureComponent {
     }
 }
 
-export default connect(null, { deleteArticle })(Article);
+export default connect((state, ownProps) => ({
+    article: articlesSelector(state, ownProps)
+}), { deleteArticle })(Article);
+
