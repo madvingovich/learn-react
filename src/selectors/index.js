@@ -13,11 +13,10 @@ export const filterArticles = createSelector(filtersGetter, articlesGetter, (fil
         to
     }} = filters;
 
-    const articleIds = Object.keys(articles).map(id => id);
-
-    return articleIds.filter(id => {
-        return (!selected.length || selected.includes(id)) &&
-            (!from || !to || articles[id].date > from.toISOString() && articles[id].date < to.toISOString());
+    return mapToArr(articles).filter(article => {
+        const published = Date.parse(article.date)
+        return (!selected.length || selected.includes(article.id)) &&
+            (!from || !to || (published > from && published < to))
     })
 });
 // to create selector for every item

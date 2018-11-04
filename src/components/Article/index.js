@@ -97,7 +97,5 @@ class Article extends PureComponent {
     }
 }
 
-export default connect((state, ownProps) => ({
-    article: articlesSelector(state, ownProps)
-}), { deleteArticle })(Article);
+export default connect(null, { deleteArticle })(Article);
 
