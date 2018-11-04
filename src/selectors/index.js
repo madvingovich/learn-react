@@ -1,4 +1,5 @@
 import {createSelector} from 'reselect';
+import {mapToArr, arrToMap} from '../helpers';
 
 
 const articlesGetter = (state) => (state.articles);
@@ -12,7 +13,7 @@ export const filterArticles = createSelector(filtersGetter, articlesGetter, (fil
         to
     }} = filters;
 
-    const articleIds = Object.keys(articles).map(id => (id));
+    const articleIds = Object.keys(articles).map(id => id);
 
     return articleIds.filter(id => {
         return (!selected.length || selected.includes(id)) &&
@@ -26,8 +27,4 @@ export const commentSelectorFactory = () => createSelector(commentsGetter, idGet
 
 export const articlesSelector = createSelector(articlesGetter, idGetter, (articles, id) => {
     return articles[id];
-});
-
-export const articlesToArraySelector = createSelector(articlesGetter, (articles) => {
-    return Object.keys(articles).map(key => key);
 });

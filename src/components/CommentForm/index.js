@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
+import {addComment} from "../../AC";
 import './CommentForm.css'
 
 class AddCommentFormForm extends Component {
@@ -8,7 +10,8 @@ class AddCommentFormForm extends Component {
     };
     state = {
         user: '',
-        text: ''
+        text: '',
+        articleId: this.props.articleId
     };
 
     render() {
@@ -16,6 +19,7 @@ class AddCommentFormForm extends Component {
             <form onSubmit={this.handleSubmit}>
                 User:
                 <input
+                    ref = 'user'
                     type="text"
                     value={this.state.user}
                     className={this.getClassName('user')}
@@ -24,6 +28,7 @@ class AddCommentFormForm extends Component {
                 />
                 Comment:
                 <input
+                    ref = 'text'
                     type="text"
                     value={this.state.text}
                     className={this.getClassName('text')}
@@ -37,6 +42,12 @@ class AddCommentFormForm extends Component {
     
     handleSubmit = (e) => {
         e.preventDefault();
+        if(!this.state.user.length || !this.state.text.length || this.refs.user.classList.contains('input-error') || this.refs.text.classList.contains('input-error')) return;
+
+        const {addComment} = this.props;
+
+        addComment(this.state);
+
         this.setState({
             user: '',
             text: ''
@@ -65,6 +76,6 @@ const validate = {
         min: 20,
         max: 50
     }
-}
+};
 
-export default AddCommentFormForm;
+export default connect(null, { addComment })(AddCommentFormForm);

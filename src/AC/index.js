@@ -1,4 +1,4 @@
-import {DELETE_ARTICLE, INCREMENT, SELECT_CHANGE, DATE_CHANGE} from '../constans';
+import {DELETE_ARTICLE, INCREMENT, SELECT_CHANGE, DATE_CHANGE, ADD_COMMENT} from '../constans';
 
 export function increment() {
     return {
@@ -24,5 +24,13 @@ export function changeDate(range) {
     return {
         type: DATE_CHANGE,
         payload: { range }
+    }
+}
+
+export function addComment(state) {
+    return {
+        type: ADD_COMMENT,
+        payload: { state },
+        generateId: true
     }
 }
