@@ -4,6 +4,8 @@ import Article from './Article';
 import accordion from '../decorators/accordion';
 import {connect} from 'react-redux';
 import {filterArticles} from '../selectors';
+import {loadAllArticles} from "../AC";
+import Loader from './Loader';
 
 
 class ArticleList extends Component {
@@ -15,9 +17,14 @@ class ArticleList extends Component {
         openItemId: PropTypes.string
     };
 
+    componentDidMount() {
+        const {loading, loaded, loadAllArticles} = this.props;
+        if(!loaded || !loading) loadAllArticles();
+    }
+
     render() {
-        const {articles, openItemId, toggleOpenItem} = this.props;
-        console.log(articles)
+        const {articles, openItemId, toggleOpenItem, loading, loaded} = this.props;
+        if(loading) return <Loader />;
         const articleList = articles.map(article =>
             <li key = {article.id}>
                 <Article id={article.id}
@@ -38,5 +45,7 @@ class ArticleList extends Component {
 export default connect((state) => {//map store state to props
     return {
         articles: filterArticles(state),
+        loading: state.articles.loading,
+        loaded: state.articles.loaded
     }
-})(accordion(ArticleList));
+}, { loadAllArticles })(accordion(ArticleList));

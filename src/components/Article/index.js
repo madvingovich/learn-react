@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 import CommentList from '../CommentList';
 import { CSSTransitionGroup } from 'react-transition-group';
 import {connect} from 'react-redux';
-import {deleteArticle} from '../../AC';
-import {articlesSelector} from '../../selectors';
+import {deleteArticle, loadArticle} from '../../AC';
+import Loader from '../Loader';
 import './article.css';
 
 class Article extends PureComponent {
@@ -30,8 +30,8 @@ class Article extends PureComponent {
     //     return nextProps.isOpen !== this.props.isOpen
     // }
 
-    componentWillReceiveProps(nextProps) {
-        // console.log('updating', this.props.isOpen, nextProps.isOpen);
+    componentWillReceiveProps({isOpen, loadArticle, article}) {
+        if(isOpen && !article.text && !article.loading) loadArticle(article.id);
     }
 
     componentWillMount() {
@@ -81,6 +81,8 @@ class Article extends PureComponent {
 
         if(!isOpen) return null;
 
+        if(article.loading) return <Loader/>
+
         const {comments} = article;
         return (
             <div>
@@ -97,5 +99,5 @@ class Article extends PureComponent {
     }
 }
 
-export default connect(null, { deleteArticle })(Article);
+export default connect(null, { deleteArticle, loadArticle})(Article);
 

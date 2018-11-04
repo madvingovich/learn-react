@@ -12,12 +12,11 @@ class App extends Component {
     };
 
     render() {
-        const {articles} = this.props;
         return (
             <div>
                 <Counter />
                 <UserForm/>
-                <Filters articles = {[]}/>
+                <Filters />
                 <ArticleList />
             </div>
         )
