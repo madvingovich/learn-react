@@ -9,10 +9,10 @@ const ArticleRecord = Record({
     title: '',
     id: undefined,
     loading: false,
-    comments: []
+    comments: [],
 });
 
-const ReducerState = new Record({
+const ReducerState = Record({
     loading: false,
     loaded: false,
     entities: new OrderedMap({})
@@ -43,7 +43,7 @@ export default (articleState = defaultState, action) => {
             return articleState
                 .set('entities', arrToMap(response, ArticleRecord))
                 .set('loading', false)
-                .set('loaded', true)
+                .set('loaded', true);
 
         case LOAD_ARTICLE + START:
             return articleState.setIn(['entities', payload.id, 'loading'], true)
