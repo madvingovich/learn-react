@@ -83,12 +83,11 @@ class Article extends PureComponent {
 
         if(article.loading) return <Loader/>
 
-        const {comments} = article;
         return (
             <div>
                 <section>{article.text}</section>
                 <button onClick={() => this.setState({updateIndex: this.state.updateIndex + 1})}>update</button>
-                <CommentList key = {this.state.updateIndex} comments = {comments} ref = {this.commentsRef} articleId = {article.id}/>
+                <CommentList key = {this.state.updateIndex} ref = {this.commentsRef} article = {article}/>
             </div>
         );
     };

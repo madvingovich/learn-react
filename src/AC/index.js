@@ -1,6 +1,7 @@
 import {
     DELETE_ARTICLE, INCREMENT, SELECT_CHANGE, DATE_CHANGE,
-    ADD_COMMENT, LOAD_ALL_ARTICLES, LOAD_ARTICLE, START, FAIL, SUCCESS
+    ADD_COMMENT, LOAD_ALL_ARTICLES, LOAD_ARTICLE, START, FAIL, SUCCESS,
+    LOAD_ARTICLE_COMMENTS
 } from '../constans';
 
 export function increment() {
@@ -64,5 +65,13 @@ export function loadArticle(id) {
                     payload: { id, error }
                 }))
         }, 1000)
+    }
+}
+
+export function loadArticleComments(articleId) {
+    return {
+        type: LOAD_ARTICLE_COMMENTS,
+        payload: { articleId },
+        callAPI: `api/comment?article=${articleId}`
     }
 }

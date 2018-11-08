@@ -5,7 +5,7 @@ import {mapToArr, arrToMap} from '../helpers';
 const articlesGetter = (state) => (state.articles.entities);
 const filtersGetter = (state) => (state.filters);
 const idGetter = (state, props) => (props.id);
-const commentsGetter = (state) => (state.comments);
+const commentsGetter = (state) => (state.comments.entities);
 
 export const filterArticles = createSelector(filtersGetter, articlesGetter, (filters, articles) => {
     const {selected, dateRange: {
@@ -21,7 +21,8 @@ export const filterArticles = createSelector(filtersGetter, articlesGetter, (fil
 });
 // to create selector for every item
 export const commentSelectorFactory = () => createSelector(commentsGetter, idGetter, (comments, id) => {
-    return comments[id];
+    console.log(comments.get(id))
+    return comments.get(id);
 });
 
 export const articlesSelector = createSelector(articlesGetter, idGetter, (articles, id) => {
