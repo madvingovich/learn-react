@@ -1,7 +1,7 @@
 import {
     DELETE_ARTICLE, INCREMENT, SELECT_CHANGE, DATE_CHANGE,
     ADD_COMMENT, LOAD_ALL_ARTICLES, LOAD_ARTICLE, START, FAIL, SUCCESS,
-    LOAD_ARTICLE_COMMENTS
+    LOAD_ARTICLE_COMMENTS, LOAD_ALL_COMMENTS
 } from '../constans';
 
 export function increment() {
@@ -51,7 +51,7 @@ export function loadArticle(id) {
         dispatch({
             type: LOAD_ARTICLE + START,
             payload: { id }
-        })
+        });
 
         setTimeout(() => {
             fetch(`/api/article/${id}`)
@@ -73,5 +73,14 @@ export function loadArticleComments(articleId) {
         type: LOAD_ARTICLE_COMMENTS,
         payload: { articleId },
         callAPI: `api/comment?article=${articleId}`
+    }
+}
+
+export function loadAllComments(page) {
+    const offset = page === 1 ? 0 :
+        (page - 1) * 5;
+    return {
+        type: LOAD_ALL_COMMENTS,
+        callAPI: `/api/comment?limit=5&offset=${page}`
     }
 }

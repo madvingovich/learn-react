@@ -22,11 +22,6 @@ export default (commentsState = new ReducerState(), action) => {
             const {user, text} = payload.state;
 
             return commentsState.setIn(['entities', id], new CommentRecord({user, text, id}));
-
-            // return {
-            //     ...commentsState,
-            //     [id]: payload.state
-            // }
         }
 
 

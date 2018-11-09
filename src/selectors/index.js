@@ -21,7 +21,6 @@ export const filterArticles = createSelector(filtersGetter, articlesGetter, (fil
 });
 // to create selector for every item
 export const commentSelectorFactory = () => createSelector(commentsGetter, idGetter, (comments, id) => {
-    console.log(comments.get(id))
     return comments.get(id);
 });
 

@@ -10,16 +10,16 @@ import './article.css';
 
 class Article extends PureComponent {
     static propTypes = {
+        //from props
+        isOpen: PropTypes.bool,
+        toggleOpen: PropTypes.func,
+        id: PropTypes.string.isRequired,
         //from connect
         article: PropTypes.shape({
-            id: PropTypes.string.isRequired,
-            title: PropTypes.string.isRequired,
+            id: PropTypes.string,
+            title: PropTypes.string,
             text: PropTypes.string
-        }).isRequired,
-        //from props
-        id: PropTypes.string.isRequired,
-        isOpen: PropTypes.bool,
-        toggleOpen: PropTypes.func.isRequired
+        }),
     };
 
     state = {
@@ -30,8 +30,9 @@ class Article extends PureComponent {
     //     return nextProps.isOpen !== this.props.isOpen
     // }
 
-    componentWillReceiveProps({isOpen, loadArticle, article}) {
-        if(isOpen && !article.text && !article.loading) loadArticle(article.id);
+    componentDidMount() {
+        const {isOpen, loadArticle, article, id} = this.props;
+        if(!article || (!article.text && !article.loading)) loadArticle(id);
     }
 
     componentWillMount() {
@@ -40,7 +41,7 @@ class Article extends PureComponent {
 
     render() {
         const {article, isOpen, toggleOpen} = this.props;
-        console.log('update article')
+        if(!article) return null;
 
         return (
             <div ref = {this.setContainerRef}>
@@ -64,10 +65,6 @@ class Article extends PureComponent {
     setContainerRef = ref => {
         // console.log('ref - ', ref)
     };
-    
-    componentDidMount() {
-        // console.log('vse, v real\'nom dome vse gotovo, tut zbs veshat\' sobitiya');
-    }
 
     handleDelete = () => {
         console.log('deleted');
@@ -78,6 +75,7 @@ class Article extends PureComponent {
 
     getBody = () => {
         const {article, isOpen} = this.props;
+        console.log(article,isOpen)
 
         if(!isOpen) return null;
 
@@ -98,5 +96,7 @@ class Article extends PureComponent {
     }
 }
 
-export default connect(null, { deleteArticle, loadArticle})(Article);
+export default connect((state, ownProps) => ({
+    article: state.articles.entities.get(ownProps.id)
+}), { deleteArticle, loadArticle})(Article);
 
