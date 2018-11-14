@@ -1,7 +1,7 @@
 import {
     DELETE_ARTICLE, INCREMENT, SELECT_CHANGE, DATE_CHANGE,
     ADD_COMMENT, LOAD_ALL_ARTICLES, LOAD_ARTICLE, START, FAIL, SUCCESS,
-    LOAD_ARTICLE_COMMENTS, LOAD_ALL_COMMENTS
+    LOAD_ARTICLE_COMMENTS, LOAD_ALL_COMMENTS, LOAD_COMMENTS_FOR_PAGE
 } from '../constans';
 
 export function increment() {
@@ -76,11 +76,16 @@ export function loadArticleComments(articleId) {
     }
 }
 
-export function loadAllComments(page) {
-    const offset = page === 1 ? 0 :
-        (page - 1) * 5;
-    return {
-        type: LOAD_ALL_COMMENTS,
-        callAPI: `/api/comment?limit=5&offset=${page}`
+export function checkAndLoadCommentsForPage(page) {
+    return (dispatch, getState) => {
+        const {comments: {pagination}} = getState();
+
+        if(pagination.getIn([`page${page}`, 'loading']) || pagination.getIn([`page${page}`, 'ids'])) return;
+
+        dispatch({
+            type: LOAD_COMMENTS_FOR_PAGE,
+            payload: {page},
+            callAPI: `/api/comment?limit=5&offset=${(page - 1) * 5}`
+        })
     }
 }
